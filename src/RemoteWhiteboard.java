@@ -1,3 +1,5 @@
+import shapes.ICustomShape;
+
 import java.awt.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -5,7 +7,7 @@ import java.util.ArrayList;
 
 public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhiteboard {
 
-    private ArrayList<Shape> shapes = new ArrayList<Shape>();
+    private ArrayList<ICustomShape> shapes = new ArrayList<>();
 
     protected RemoteWhiteboard() throws RemoteException {
         super();
@@ -13,12 +15,12 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
 
 
     @Override
-    public ArrayList<Shape> getShapes() throws RemoteException {
+    public ArrayList<ICustomShape> getShapes() throws RemoteException {
         return shapes;
     }
 
     @Override
-    public void addShape(Shape shape) throws RemoteException {
+    public void addShape(ICustomShape shape) throws RemoteException {
         shapes.add(shape);
     }
 

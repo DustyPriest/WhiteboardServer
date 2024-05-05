@@ -21,20 +21,27 @@ public class CustomRectangle extends Rectangle implements ICustomShape {
     }
 
     @Override
-    public void updateBounds(int x, int y) {
+    public void updateBounds(int x, int y2) {
         if (x < xOrigin) {
             this.width = xOrigin - x;
             this.x = x;
         } else {
             this.width = x - xOrigin;
         }
-        if (y < yOrigin) {
-            this.height = yOrigin - y;
-            this.y = y;
+        if (y2 < yOrigin) {
+            this.height = yOrigin - y2;
+            this.y = y2;
         } else {
-            this.height = y - yOrigin;
+            this.height = y2 - yOrigin;
         }
 
+    }
+
+    @Override
+    public void draw(Graphics2D g2) {
+        g2.setColor(color);
+        g2.setStroke(new BasicStroke(strokeWidth));
+        g2.draw(this);
     }
 
     @Override

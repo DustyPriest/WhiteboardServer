@@ -39,6 +39,15 @@ public class CustomEllipse extends Ellipse2D.Double implements ICustomShape {
             this.height = y - yOrigin;
         }
     }
+
+
+    @Override
+    public void draw(Graphics2D g2) {
+        g2.setColor(color);
+        g2.setStroke(new BasicStroke(strokeWidth));
+        g2.draw(this);
+    }
+
     @Override
     public Color getColor() {
         return color;

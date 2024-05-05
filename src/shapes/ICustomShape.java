@@ -10,4 +10,6 @@ public interface ICustomShape extends Serializable {
     int getStrokeWidth();
 
     void updateBounds(int x, int y);
+
+    void draw(Graphics2D g2);
 }

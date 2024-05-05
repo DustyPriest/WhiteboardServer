@@ -24,6 +24,13 @@ public class CustomLine extends Line2D.Double implements ICustomShape {
     }
 
     @Override
+    public void draw(Graphics2D g2) {
+        g2.setColor(color);
+        g2.setStroke(new BasicStroke(strokeWidth));
+        g2.draw(this);
+    }
+
+    @Override
     public Color getColor() {
         return color;
     }
