@@ -35,6 +35,7 @@ public class CustomText implements ICustomShape {
         if (showCaret) {
             int stringWidth = g2.getFontMetrics(font).stringWidth(text) + 2;
             g2.setColor(Color.GREEN);
+            g2.setStroke(new BasicStroke(2));
             g2.drawLine(x + stringWidth, y + 2, x + stringWidth, y -  charHeight);
         }
     }

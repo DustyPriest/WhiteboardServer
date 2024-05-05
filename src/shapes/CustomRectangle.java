@@ -8,16 +8,15 @@ public class CustomRectangle extends Rectangle implements ICustomShape {
     private int strokeWidth = 1;
     private final int xOrigin;
     private final int yOrigin;
-    public CustomRectangle(int x, int y, int width, int height) {
+    private boolean fill = false;
+
+    public CustomRectangle(int x, int y, int width, int height, Color color, int strokeWidth, boolean fill) {
         super(x, y, width, height);
         this.xOrigin = x;
         this.yOrigin = y;
-    }
-
-    public CustomRectangle(int x, int y, int width, int height, Color color, int strokeWidth) {
-        this(x, y, width, height);
         this.color = color;
         this.strokeWidth = strokeWidth;
+        this.fill = fill;
     }
 
     @Override
@@ -39,9 +38,14 @@ public class CustomRectangle extends Rectangle implements ICustomShape {
 
     @Override
     public void draw(Graphics2D g2) {
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(color);
         g2.setStroke(new BasicStroke(strokeWidth));
-        g2.draw(this);
+        if (fill) {
+            g2.fill(this);
+        } else {
+            g2.draw(this);
+        }
     }
 
     @Override

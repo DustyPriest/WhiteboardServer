@@ -25,6 +25,7 @@ public class CustomLine extends Line2D.Double implements ICustomShape {
 
     @Override
     public void draw(Graphics2D g2) {
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(color);
         g2.setStroke(new BasicStroke(strokeWidth));
         g2.draw(this);
