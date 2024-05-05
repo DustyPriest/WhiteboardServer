@@ -12,11 +12,12 @@ public class CustomText implements ICustomShape {
     private final int y;
     private boolean showCaret = true;
 
-    public CustomText(String text, int x, int y, Color color) {
+    public CustomText(String text, int x, int y, Color color, Font font) {
         this.text = text;
         this.x = x;
         this.y = y;
         this.color = color;
+        this.font = font;
     }
 
 

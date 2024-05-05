@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="180680d2-7750-4928-a4b0-583ad2013e71" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/shapes/CustomText.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IRemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IRemoteWhiteboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RemoteWhiteboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shapes/CustomEllipse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shapes/CustomEllipse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shapes/CustomLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shapes/CustomLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shapes/CustomRectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shapes/CustomRectangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shapes/ICustomShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shapes/ICustomShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shapes/CustomText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shapes/CustomText.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +54,9 @@
       <recent name="C:\Users\HugoPC\IdeaProjects\WhiteboardServer\src" />
       <recent name="C:\Users\HugoPC\IdeaProjects\WhiteboardServer\src\shapes" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="shapes" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Run" type="Application" factoryName="Application">
@@ -78,7 +75,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714628289058</updated>
-      <workItem from="1714628290057" duration="6231000" />
+      <workItem from="1714628290057" duration="7946000" />
     </task>
     <servers />
   </component>
