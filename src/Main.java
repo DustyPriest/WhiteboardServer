@@ -7,6 +7,7 @@ public class Main {
 
             try {
 
+                LocateRegistry.createRegistry(1099);
                 IRemoteWhiteboard remoteMath = new RemoteWhiteboard();
                 Registry registry = LocateRegistry.getRegistry();
                 registry.bind("RemoteWhiteboard", remoteMath);

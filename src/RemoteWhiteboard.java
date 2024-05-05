@@ -1,10 +1,15 @@
 import java.awt.*;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-public class RemoteWhiteboard implements IRemoteWhiteboard {
+public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhiteboard {
 
     private ArrayList<Shape> shapes = new ArrayList<Shape>();
+
+    protected RemoteWhiteboard() throws RemoteException {
+        super();
+    }
 
 
     @Override
