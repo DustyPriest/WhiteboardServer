@@ -67,6 +67,8 @@ public class ServerGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(closeListener);
         this.setSize(400, 400);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setBounds((int) screenSize.getWidth() / 2 - 805, (int) screenSize.getHeight() / 2 - 200, 400, 400);
         this.setVisible(true);
     }
 
