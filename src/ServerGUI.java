@@ -12,9 +12,11 @@ public class ServerGUI extends JFrame {
     private JButton kickButton;
     private JButton acceptUserButton;
     private JButton denyUserButton;
+    private JButton openWhiteboardButton;
     private final RemoteWhiteboard whiteboardState;
+    private WhiteboardGUI managerGUI;
 
-    public ServerGUI(RemoteWhiteboard whiteboardState) {
+    public ServerGUI(RemoteWhiteboard whiteboardState, String managerName) {
         super();
         whiteboardState.setServerGUI(this);
 
@@ -64,6 +66,14 @@ public class ServerGUI extends JFrame {
             }
         });
 
+        openWhiteboardButton.addActionListener(e -> {
+            if (managerGUI.isDisplayable()) {
+                managerGUI.setVisible(true);
+                managerGUI.requestFocus();
+            } else {
+                managerGUI = new WhiteboardGUI(whiteboardState, managerName);
+            }
+        });
 
         this.whiteboardState = whiteboardState;
         this.setContentPane(mainPanel);
@@ -74,6 +84,8 @@ public class ServerGUI extends JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setBounds((int) screenSize.getWidth() / 2 - 805, (int) screenSize.getHeight() / 2 - 200, 400, 400);
         this.setVisible(true);
+
+        managerGUI = new WhiteboardGUI(whiteboardState, managerName);
     }
 
     public void updateUserList(String[] users) {
@@ -82,5 +94,9 @@ public class ServerGUI extends JFrame {
 
     public void updateApplicationList(String[] applications) {
         applicationList.setListData(applications);
+    }
+
+    public void closeWhiteboard() {
+        managerGUI.close();
     }
 }

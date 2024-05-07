@@ -29,7 +29,8 @@ public class WhiteboardGUI extends JFrame {
     public WhiteboardGUI(RemoteWhiteboard remoteWhiteboardState, String username) {
         super();
 
-        remoteWhiteboardState.addManager(username);
+        remoteWhiteboardState.setManager(username);
+        remoteWhiteboardState.addUser(username);
 
         whiteboardCanvas = new WhiteboardCanvas(remoteWhiteboardState);
         mainPanel.add(whiteboardCanvas, BorderLayout.CENTER);
