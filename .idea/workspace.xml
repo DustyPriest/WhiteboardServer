@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="180680d2-7750-4928-a4b0-583ad2013e71" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IRemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IRemoteWhiteboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RemoteWhiteboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServerGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerGUI.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +62,7 @@
     <configuration name="Run" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="WhiteboardServer" />
+      <option name="PROGRAM_PARAMETERS" value="1099 hugo" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -78,7 +76,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714628289058</updated>
-      <workItem from="1714628290057" duration="27485000" />
+      <workItem from="1714628290057" duration="28133000" />
     </task>
     <servers />
   </component>
