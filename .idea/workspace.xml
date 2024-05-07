@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="180680d2-7750-4928-a4b0-583ad2013e71" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Subscriber.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SubscriberSubject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServerGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerGUI.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RemoteWhiteboard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -53,6 +55,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\HugoPC\IdeaProjects\WhiteboardServer\src" />
       <recent name="C:\Users\HugoPC\IdeaProjects\WhiteboardServer\src\shapes" />
@@ -79,7 +84,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714628289058</updated>
-      <workItem from="1714628290057" duration="31786000" />
+      <workItem from="1714628290057" duration="32948000" />
     </task>
     <servers />
   </component>

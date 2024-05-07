@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.rmi.RemoteException;
 
-public class ChatGUI extends JFrame implements KeyListener {
+public class ChatGUI extends JFrame implements KeyListener, Subscriber {
     private JPanel mainPanel;
     private JScrollPane chatScrollPane;
     private JTextField messageField;
@@ -12,14 +12,14 @@ public class ChatGUI extends JFrame implements KeyListener {
     private JScrollPane activeUsersScrollPane;
     private JTextArea chatArea;
     private JTextArea usersArea;
-    private final Timer chatUpdateTimer;
     private final IRemoteWhiteboard remoteWhiteboardState;
     private final String username;
 
-    public ChatGUI(IRemoteWhiteboard remoteWhiteboardState, String username) {
+    public ChatGUI(RemoteWhiteboard remoteWhiteboardState, String username) {
         super();
         this.remoteWhiteboardState = remoteWhiteboardState;
         this.username = username;
+        remoteWhiteboardState.subscribe(this);
 
         this.setContentPane(mainPanel);
         this.setTitle("Chat & Users");
@@ -30,18 +30,6 @@ public class ChatGUI extends JFrame implements KeyListener {
 
         sendButton.addActionListener(e -> sendMessage());
         messageField.addKeyListener(this);
-
-        // TODO: make remotewhiteboard a eventpublisher and this a eventlistener
-        chatUpdateTimer = new Timer(1000, e -> {
-            try {
-                chatArea.setText(String.join("\n", remoteWhiteboardState.getChatMessages()));
-                usersArea.setText(String.join("\n", remoteWhiteboardState.getCurrentUsers()));
-            } catch (RemoteException ex) {
-                System.err.println("Failed to get chat messages or users");
-                Main.handleConnectionFailure(ex);
-            }
-        });
-        chatUpdateTimer.start();
 
         this.setVisible(true);
     }
@@ -56,6 +44,27 @@ public class ChatGUI extends JFrame implements KeyListener {
                 System.err.println("Failed to send chat message");
                 Main.handleConnectionFailure(ex);
             }
+        }
+    }
+
+    private void updateChatArea(String[] messages) {
+        chatArea.setText(String.join("\n", messages));
+    }
+
+    private void updateUsersArea(String[] users) {
+        usersArea.setText(String.join("\n", users));
+    }
+
+    @Override
+    public void update(String event, String[] data) {
+        switch (event) {
+            case "chat":
+                updateChatArea(data);
+                break;
+            case "users":
+                updateUsersArea(data);
+                break;
+            default:
         }
     }
 

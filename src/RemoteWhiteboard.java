@@ -3,18 +3,19 @@ import shapes.ICustomShape;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhiteboard {
+public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhiteboard, SubscriberSubject {
 
     private ConcurrentLinkedQueue<ICustomShape> shapes = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<String> users = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<String> applications = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<String> chatMessages = new ConcurrentLinkedQueue<>();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    private ServerGUI serverGUI;
     private String manager;
+    private final ArrayList<Subscriber> subscribers = new ArrayList<>();
 
     protected RemoteWhiteboard() throws RemoteException {
         super();
@@ -49,7 +50,7 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public void applyForConnection(String username) throws RemoteException {
         applications.add(username);
-        serverGUI.updateApplicationList(applications.toArray(new String[0]));
+        notifySubscribers("applications", applications.toArray(new String[0]));
     }
 
     @Override
@@ -60,7 +61,7 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public void retractApplication(String username) throws RemoteException {
         applications.remove(username);
-        serverGUI.updateApplicationList(applications.toArray(new String[0]));
+        notifySubscribers("applications", applications.toArray(new String[0]));
     }
 
     public void addUser(String username) {
@@ -68,16 +69,17 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
         applications.remove(username);
         try {
             addChatMessage(username + " has joined the whiteboard.", "Server");
+            notifySubscribers("chat", chatMessages.toArray(new String[0]));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        serverGUI.updateApplicationList(applications.toArray(new String[0]));
-        serverGUI.updateUserList(users.toArray(new String[0]));
+        notifySubscribers("applications", applications.toArray(new String[0]));
+        notifySubscribers("users", users.toArray(new String[0]));
     }
 
     public void denyUser(String username) {
         applications.remove(username);
-        serverGUI.updateApplicationList(applications.toArray(new String[0]));
+        notifySubscribers("applications", applications.toArray(new String[0]));
     }
 
 
@@ -85,7 +87,8 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     public void kickUser(String username) throws RemoteException {
         users.remove(username);
         addChatMessage(username + " has departed.", "Server");
-        serverGUI.updateUserList(users.toArray(new String[0]));
+        notifySubscribers("chat", chatMessages.toArray(new String[0]));
+        notifySubscribers("users", users.toArray(new String[0]));
     }
 
     @Override
@@ -96,14 +99,9 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public void addChatMessage(String message, String user) throws RemoteException {
         chatMessages.add("[" + dateFormat.format(new Date()) + "] " + user + ": " + message);
+        notifySubscribers("chat", chatMessages.toArray(new String[0]));
     }
 
-
-    public void setServerGUI(ServerGUI serverGUI) {
-        if (this.serverGUI == null) {
-            this.serverGUI = serverGUI;
-        }
-    }
 
     public void setManager(String username) {
         if (manager == null) {
@@ -113,5 +111,22 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
 
     public String getManager() {
         return manager;
+    }
+
+    @Override
+    public void subscribe(Subscriber subscriber) {
+        if (!subscribers.contains(subscriber)) {
+            subscribers.add(subscriber);
+        }
+    }
+    @Override
+    public void unsubscribe(Subscriber subscriber) {
+        subscribers.remove(subscriber);
+    }
+    @Override
+    public void notifySubscribers(String event, String[] data) {
+        for (Subscriber subscriber : subscribers) {
+            subscriber.update(event, data);
+        }
     }
 }

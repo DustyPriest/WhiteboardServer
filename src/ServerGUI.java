@@ -5,7 +5,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.rmi.RemoteException;
 
-public class ServerGUI extends JFrame {
+public class ServerGUI extends JFrame implements Subscriber {
     private JPanel mainPanel;
     private JList<String> userList;
     private JList<String> applicationList;
@@ -18,7 +18,7 @@ public class ServerGUI extends JFrame {
 
     public ServerGUI(RemoteWhiteboard whiteboardState, String managerName) {
         super();
-        whiteboardState.setServerGUI(this);
+        whiteboardState.subscribe(this);
 
         userList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         applicationList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -88,15 +88,32 @@ public class ServerGUI extends JFrame {
         managerGUI = new WhiteboardGUI(whiteboardState, managerName);
     }
 
-    public void updateUserList(String[] users) {
+    private void updateUserList(String[] users) {
         userList.setListData(users);
     }
 
-    public void updateApplicationList(String[] applications) {
+    private void updateApplicationList(String[] applications) {
         applicationList.setListData(applications);
     }
 
     public void closeWhiteboard() {
         managerGUI.close();
+    }
+
+    @Override
+    public void update(String event, String[] data) {
+        switch (event) {
+            case "users":
+                updateUserList(data);
+                break;
+            case "applications":
+                updateApplicationList(data);
+                break;
+            case "chat":
+                break;
+            default:
+                System.err.println("Unknown event: " + event);
+        }
+
     }
 }
