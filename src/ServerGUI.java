@@ -11,6 +11,7 @@ public class ServerGUI extends JFrame {
     private JList<String> applicationList;
     private JButton kickButton;
     private JButton acceptUserButton;
+    private JButton denyUserButton;
     private final RemoteWhiteboard whiteboardState;
 
     public ServerGUI(RemoteWhiteboard whiteboardState) {
@@ -37,6 +38,13 @@ public class ServerGUI extends JFrame {
             String selectedUser = applicationList.getSelectedValue();
             if (selectedUser != null) {
                 whiteboardState.addUser(selectedUser);
+            }
+        });
+
+        denyUserButton.addActionListener(e -> {
+            String selectedUser = applicationList.getSelectedValue();
+            if (selectedUser != null) {
+                whiteboardState.denyUser(selectedUser);
             }
         });
 

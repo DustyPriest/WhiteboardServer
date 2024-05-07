@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="180680d2-7750-4928-a4b0-583ad2013e71" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IRemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IRemoteWhiteboard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RemoteWhiteboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerGUI.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerGUI.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714628289058</updated>
-      <workItem from="1714628290057" duration="24432000" />
+      <workItem from="1714628290057" duration="27485000" />
     </task>
     <servers />
   </component>

@@ -42,6 +42,11 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
+    public boolean userExists(String username) throws RemoteException {
+        return users.contains(username);
+    }
+
+    @Override
     public void applyForConnection(String username) throws RemoteException {
         applications.add(username);
         serverGUI.updateApplicationList(applications.toArray(new String[0]));
@@ -50,6 +55,12 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public boolean applicationPending(String username) throws RemoteException {
         return applications.contains(username);
+    }
+
+    @Override
+    public void retractApplication(String username) throws RemoteException {
+        applications.remove(username);
+        serverGUI.updateApplicationList(applications.toArray(new String[0]));
     }
 
     public void addUser(String username) {
@@ -62,6 +73,11 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
         }
         serverGUI.updateApplicationList(applications.toArray(new String[0]));
         serverGUI.updateUserList(users.toArray(new String[0]));
+    }
+
+    public void denyUser(String username) {
+        applications.remove(username);
+        serverGUI.updateApplicationList(applications.toArray(new String[0]));
     }
 
 
@@ -82,10 +98,6 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
         chatMessages.add("[" + dateFormat.format(new Date()) + "] " + user + ": " + message);
     }
 
-    @Override
-    public boolean validateUsername(String username) throws RemoteException {
-        return !users.contains(username);
-    }
 
     public void setServerGUI(ServerGUI serverGUI) {
         if (this.serverGUI == null) {
