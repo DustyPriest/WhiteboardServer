@@ -4,16 +4,18 @@ import java.rmi.registry.Registry;
 public class Main {
 
     public static void main(String[] args) {
-
+            IRemoteWhiteboard remoteWhiteboard;
             try {
 
                 LocateRegistry.createRegistry(1099);
-                IRemoteWhiteboard remoteMath = new RemoteWhiteboard();
+                remoteWhiteboard = new RemoteWhiteboard();
                 Registry registry = LocateRegistry.getRegistry();
-                registry.bind("RemoteWhiteboard", remoteMath);
+                registry.bind("RemoteWhiteboard", remoteWhiteboard);
+                new ServerGUI((RemoteWhiteboard) remoteWhiteboard);
 
             }catch(Exception e) {
                 e.printStackTrace();
             }
+
     }
 }

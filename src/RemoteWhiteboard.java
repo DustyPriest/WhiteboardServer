@@ -11,6 +11,7 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
 
     private ArrayList<ICustomShape> shapes = new ArrayList<>();
     private ArrayList<String> users = new ArrayList<>();
+    private ArrayList<String> applications = new ArrayList<>();
     private ArrayList<String> chatMessages = new ArrayList<>();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -40,11 +41,27 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public void addUser(String username) throws RemoteException {
+    public void applyForConnection(String username) throws RemoteException {
+        // TODO: separate into apply for connection & adduser where application is public and add user is private
+        //  application prompts name instant decline on username duplication, otherwise add name to applications list
         if (!users.contains(username)) {
-            users.add(username);
-            addChatMessage(username + " has joined the whiteboard.", "Server");
+            applications.add(username);
+//            addChatMessage(username + " has joined the whiteboard.", "Server");
         }
+    }
+
+    public void addUser(String username) {
+        users.add(username);
+        applications.remove(username);
+        try {
+            addChatMessage(username + " has joined the whiteboard.", "Server");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<String> getApplications() {
+        return applications;
     }
 
     @Override
