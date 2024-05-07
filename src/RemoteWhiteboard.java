@@ -42,12 +42,12 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
 
     @Override
     public void applyForConnection(String username) throws RemoteException {
-        // TODO: separate into apply for connection & adduser where application is public and add user is private
-        //  application prompts name instant decline on username duplication, otherwise add name to applications list
-        if (!users.contains(username)) {
-            applications.add(username);
-//            addChatMessage(username + " has joined the whiteboard.", "Server");
-        }
+        applications.add(username);
+    }
+
+    @Override
+    public boolean applicationPending(String username) throws RemoteException {
+        return applications.contains(username);
     }
 
     public void addUser(String username) {
