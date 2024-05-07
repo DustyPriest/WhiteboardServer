@@ -8,6 +8,7 @@ public class Main {
 
     private static int port;
     private static String username;
+    private static WhiteboardGUI managerGUI;
 
 
     public static void main(String[] args) {
@@ -25,6 +26,7 @@ public class Main {
             Registry registry = LocateRegistry.getRegistry();
             registry.bind("RemoteWhiteboard", remoteWhiteboard);
             new ServerGUI(remoteWhiteboard);
+            managerGUI = new WhiteboardGUI(remoteWhiteboard, username);
 
         } catch (RemoteException e) {
             JOptionPane.showMessageDialog(null, "Failed to start server.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -36,6 +38,12 @@ public class Main {
             System.exit(0);
         }
 
+    }
+
+    public static void handleConnectionFailure(Exception e) {
+        JOptionPane.showMessageDialog(null, "Connection to whiteboard failed.\nWhiteboard will close...", "Connection Failed", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+        managerGUI.close();
     }
 
     private static boolean parseArgs(String[] args) {

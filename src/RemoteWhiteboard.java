@@ -14,6 +14,7 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     private ConcurrentLinkedQueue<String> chatMessages = new ConcurrentLinkedQueue<>();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private ServerGUI serverGUI;
+    private String manager;
 
     protected RemoteWhiteboard() throws RemoteException {
         super();
@@ -102,5 +103,17 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
         if (this.serverGUI == null) {
             this.serverGUI = serverGUI;
         }
+    }
+
+    public void addManager(String username) {
+        if (manager == null) {
+            manager = username;
+            users.add(username);
+            serverGUI.updateUserList(users.toArray(new String[0]));
+        }
+    }
+
+    public String getManager() {
+        return manager;
     }
 }

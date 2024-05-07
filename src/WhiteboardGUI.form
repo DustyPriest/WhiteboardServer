@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="WhiteboardGUI">
+  <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="410"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <toolbar id="fcd1e" binding="drawingOptionsToolbar">
+        <constraints border-constraint="East"/>
+        <properties>
+          <margin top="1" left="1" bottom="1" right="1"/>
+          <name value="Drawing Options"/>
+          <orientation value="1"/>
+          <toolTipText value=""/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="2722d" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="dc8c4" class="javax.swing.JButton" binding="eraseButton">
+            <constraints/>
+            <properties>
+              <text value="Erase"/>
+              <toolTipText value="Erase"/>
+            </properties>
+          </component>
+          <component id="fcd38" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="47940" class="javax.swing.JButton" binding="brushButton">
+            <constraints/>
+            <properties>
+              <text value="Brush"/>
+              <toolTipText value="Brush"/>
+            </properties>
+          </component>
+          <component id="ce779" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="ea4a" class="javax.swing.JButton" binding="lineButton">
+            <constraints/>
+            <properties>
+              <text value="Line"/>
+              <toolTipText value="Line"/>
+            </properties>
+          </component>
+          <component id="a39c" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="ee59d" class="javax.swing.JButton" binding="rectangleButton">
+            <constraints/>
+            <properties>
+              <text value="Rectangle"/>
+              <toolTipText value="Rectangle"/>
+            </properties>
+          </component>
+          <component id="ceb71" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="f9d68" class="javax.swing.JButton" binding="circleButton">
+            <constraints/>
+            <properties>
+              <text value="Circle"/>
+              <toolTipText value="Circle"/>
+            </properties>
+          </component>
+          <component id="d8836" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="6f91e" class="javax.swing.JButton" binding="ovalButton">
+            <constraints/>
+            <properties>
+              <text value="Oval"/>
+              <toolTipText value="Oval"/>
+            </properties>
+          </component>
+          <component id="2d4f9" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="2498c" class="javax.swing.JButton" binding="textButton">
+            <constraints/>
+            <properties>
+              <text value="Text"/>
+              <toolTipText value="Text"/>
+            </properties>
+          </component>
+          <component id="aabd6" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="31ffb" class="javax.swing.JCheckBox" binding="fillCheckBox" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Fill"/>
+              <toolTipText value="Fill Shapes"/>
+            </properties>
+          </component>
+        </children>
+      </toolbar>
+      <toolbar id="b1ea1" binding="styleOptionsToolbar">
+        <constraints border-constraint="South"/>
+        <properties>
+          <floatable value="false"/>
+          <margin top="0" left="0" bottom="5" right="0"/>
+          <name value="Style Options"/>
+          <orientation value="0"/>
+          <rollover value="false"/>
+          <toolTipText value=""/>
+        </properties>
+        <clientProperties>
+          <JToolBar.isRollover class="java.lang.Boolean" value="false"/>
+        </clientProperties>
+        <border type="none"/>
+        <children>
+          <component id="f81aa" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="8f9f7" class="javax.swing.JSlider" binding="sizeSlider">
+            <constraints/>
+            <properties>
+              <majorTickSpacing value="50"/>
+              <maximumSize width="200" height="200"/>
+              <minimumSize width="24" height="24"/>
+              <minorTickSpacing value="10"/>
+              <name value="Brush Size"/>
+              <orientation value="0"/>
+              <paintLabels value="false"/>
+              <paintTicks value="true"/>
+              <snapToTicks value="false"/>
+              <toolTipText value="Brush Size"/>
+              <value value="5"/>
+            </properties>
+          </component>
+          <component id="5dd5" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="59438" class="javax.swing.JButton" binding="colorButton">
+            <constraints/>
+            <properties>
+              <text value="Colour"/>
+              <toolTipText value="Colour"/>
+            </properties>
+          </component>
+          <hspacer id="7c409">
+            <constraints/>
+          </hspacer>
+          <component id="661c4" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <labelFor value="a5d77"/>
+              <text value="Font: "/>
+            </properties>
+          </component>
+          <component id="a5d77" class="javax.swing.JComboBox" binding="fontComboBox" default-binding="true">
+            <constraints/>
+            <properties>
+              <toolTipText value="Font"/>
+            </properties>
+          </component>
+          <component id="6febf" class="javax.swing.JSpinner" binding="fontSizeSpinner">
+            <constraints/>
+            <properties>
+              <maximumSize width="50" height="30"/>
+              <minimumSize width="50" height="30"/>
+              <preferredSize width="50" height="30"/>
+              <toolTipText value="Font Size"/>
+            </properties>
+          </component>
+          <component id="8c21c" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </toolbar>
+    </children>
+  </grid>
+</form>

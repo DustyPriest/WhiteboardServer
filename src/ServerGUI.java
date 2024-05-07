@@ -51,6 +51,10 @@ public class ServerGUI extends JFrame {
         kickButton.addActionListener(e -> {
             String selectedUser = userList.getSelectedValue();
             if (selectedUser != null) {
+                if (selectedUser.equals(whiteboardState.getManager())) {
+                    JOptionPane.showMessageDialog(null, "Cannot kick manager", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 try {
                     whiteboardState.kickUser(selectedUser);
                 } catch (RemoteException ex) {
