@@ -1,18 +1,17 @@
 import shapes.ICustomShape;
 
-import java.awt.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhiteboard {
 
-    private ArrayList<ICustomShape> shapes = new ArrayList<>();
-    private ArrayList<String> users = new ArrayList<>();
-    private ArrayList<String> applications = new ArrayList<>();
-    private ArrayList<String> chatMessages = new ArrayList<>();
+    private ConcurrentLinkedQueue<ICustomShape> shapes = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<String> users = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<String> applications = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<String> chatMessages = new ConcurrentLinkedQueue<>();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private ServerGUI serverGUI;
 
@@ -22,8 +21,8 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
 
 
     @Override
-    public ArrayList<ICustomShape> getShapes() throws RemoteException {
-        return shapes;
+    public ICustomShape[] getShapes() throws RemoteException {
+        return shapes.toArray(new ICustomShape[0]);
     }
 
     @Override
@@ -37,8 +36,8 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public ArrayList<String> getCurrentUsers() throws RemoteException {
-        return users;
+    public String[] getCurrentUsers() throws RemoteException {
+        return users.toArray(new String[0]);
     }
 
     @Override
@@ -89,8 +88,8 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public ArrayList<String> getChatMessages() throws RemoteException {
-        return chatMessages;
+    public String[] getChatMessages() throws RemoteException {
+        return chatMessages.toArray(new String[0]);
     }
 
     @Override
