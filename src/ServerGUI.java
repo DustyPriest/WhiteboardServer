@@ -57,12 +57,7 @@ public class ServerGUI extends JFrame implements Subscriber {
                     JOptionPane.showMessageDialog(null, "Cannot kick manager", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                try {
-                    whiteboardState.kickUser(selectedUser);
-                } catch (RemoteException ex) {
-                    System.err.println("Failed to kick user: " + selectedUser);
-                    ex.printStackTrace();
-                }
+                whiteboardState.kickUser(selectedUser);
             }
         });
 
@@ -109,10 +104,8 @@ public class ServerGUI extends JFrame implements Subscriber {
             case "applications":
                 updateApplicationList(data);
                 break;
-            case "chat":
-                break;
             default:
-                System.err.println("Unknown event: " + event);
+                break;
         }
 
     }

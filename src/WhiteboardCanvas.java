@@ -17,7 +17,7 @@ enum DrawingMode {
     OVAL,
     TEXT
 }
-public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyListener {
+public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyListener, Subscriber {
 
     private boolean fillSelected = false;
     private boolean enteringText = false;
@@ -29,9 +29,9 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
     private int drawingStroke = 1;
     private ICustomShape[] shapes;
     private ICustomShape previewShape;
-    private final IRemoteWhiteboard remoteWhiteboardState;
+    private final RemoteWhiteboard remoteWhiteboardState;
 
-    public WhiteboardCanvas(IRemoteWhiteboard remoteWhiteboardState) {
+    public WhiteboardCanvas(RemoteWhiteboard remoteWhiteboardState) {
         super();
         this.remoteWhiteboardState = remoteWhiteboardState;
         this.setBackground(Color.WHITE);
@@ -39,18 +39,14 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
         addMouseListener(this);
         addMouseMotionListener(this);
         addKeyListener(this);
+        remoteWhiteboardState.subscribe(this);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        try {
-            shapes = remoteWhiteboardState.getShapes();
-        } catch (RemoteException e) {
-            System.err.println("Failed to get shapes from server");
-            Main.handleConnectionFailure(e);
-        }
+        shapes = remoteWhiteboardState.getShapes();
         for (ICustomShape shape : shapes) {
             shape.draw(g2);
         }
@@ -82,31 +78,26 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
     @Override
     public void mouseClicked(MouseEvent e) {
         requestFocusInWindow();
-        try {
-            switch (drawingMode) {
-                case ERASE:
-                    remoteWhiteboardState.addShape(new CustomBrush(e.getX(), e.getY(), canvasColor, drawingStroke));
-                    repaint();
-                    break;
-                case BRUSH:
-                    remoteWhiteboardState.addShape(new CustomBrush(e.getX(), e.getY(), drawingColor, drawingStroke));
-                    repaint();
-                    break;
-                case TEXT:
-                    if (enteringText) {
-                        finaliseText((CustomText) previewShape);
-                    } else {
-                        enteringText = true;
-                        previewShape = new CustomText("", e.getX(), e.getY(), drawingColor, font);
-                    }
-                    repaint();
-                    break;
-                default:
-                    break;
-            }
-        } catch (RemoteException ex) {
-            System.err.println("Failed to add shape to server");
-            Main.handleConnectionFailure(ex);
+        switch (drawingMode) {
+            case ERASE:
+                remoteWhiteboardState.addShape(new CustomBrush(e.getX(), e.getY(), canvasColor, drawingStroke));
+                repaint();
+                break;
+            case BRUSH:
+                remoteWhiteboardState.addShape(new CustomBrush(e.getX(), e.getY(), drawingColor, drawingStroke));
+                repaint();
+                break;
+            case TEXT:
+                if (enteringText) {
+                    finaliseText((CustomText) previewShape);
+                } else {
+                    enteringText = true;
+                    previewShape = new CustomText("", e.getX(), e.getY(), drawingColor, font);
+                }
+                repaint();
+                break;
+            default:
+                break;
         }
     }
 
@@ -159,12 +150,7 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
     @Override
     public void mouseReleased(MouseEvent e) {
         if (previewShape != null && !enteringText) {
-            try {
-                remoteWhiteboardState.addShape(previewShape);
-            } catch (RemoteException ex) {
-                System.err.println("Failed to add shape to server");
-                Main.handleConnectionFailure(ex);
-            }
+            remoteWhiteboardState.addShape(previewShape);
             previewShape = null;
             this.repaint();
         }
@@ -193,12 +179,7 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
         enteringText = false;
         if (!customText.isEmpty()) {
             customText.toggleCaret();
-            try {
-                remoteWhiteboardState.addShape(customText);
-            } catch (RemoteException e) {
-                System.err.println("Failed to add text to server");
-                Main.handleConnectionFailure(e);
-            }
+            remoteWhiteboardState.addShape(customText);
         }
         previewShape = null;
     }
@@ -245,4 +226,10 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
     }
 
 
+    @Override
+    public void update(String event, String[] data) {
+        if (event.equals("shape")) {
+            repaint();
+        }
+    }
 }

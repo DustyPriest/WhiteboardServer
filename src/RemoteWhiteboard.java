@@ -22,50 +22,48 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
         super();
     }
 
-
     @Override
-    public ICustomShape[] getShapes() throws RemoteException {
+    public ICustomShape[] getShapes() {
         return shapes.toArray(new ICustomShape[0]);
     }
 
-    @Override
-    public void setShapes(ConcurrentLinkedQueue<ICustomShape> shapes) throws RemoteException {
+    public void setShapes(ConcurrentLinkedQueue<ICustomShape> shapes) {
         this.shapes = shapes;
     }
 
     @Override
-    public void addShape(ICustomShape shape) throws RemoteException {
+    public void addShape(ICustomShape shape) {
         shapes.add(shape);
+        notifySubscribers("shape", null);
     }
 
-    @Override
-    public void clearShapes() throws RemoteException {
+    public void clearShapes() {
         shapes.clear();
     }
 
     @Override
-    public String[] getCurrentUsers() throws RemoteException {
+    public String[] getCurrentUsers() {
         return users.toArray(new String[0]);
     }
 
     @Override
-    public boolean userExists(String username) throws RemoteException {
+    public boolean userExists(String username) {
         return users.contains(username);
     }
 
     @Override
-    public void applyForConnection(String username) throws RemoteException {
+    public void applyForConnection(String username) {
         applications.add(username);
         notifySubscribers("applications", applications.toArray(new String[0]));
     }
 
     @Override
-    public boolean applicationPending(String username) throws RemoteException {
+    public boolean applicationPending(String username) {
         return applications.contains(username);
     }
 
     @Override
-    public void retractApplication(String username) throws RemoteException {
+    public void retractApplication(String username) {
         applications.remove(username);
         notifySubscribers("applications", applications.toArray(new String[0]));
     }
@@ -73,12 +71,8 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     public void addUser(String username) {
         users.add(username);
         applications.remove(username);
-        try {
-            addChatMessage(username + " has joined the whiteboard.", "Server");
-            notifySubscribers("chat", chatMessages.toArray(new String[0]));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        addChatMessage(username + " has joined the whiteboard.", "Server");
+        notifySubscribers("chat", chatMessages.toArray(new String[0]));
         notifySubscribers("applications", applications.toArray(new String[0]));
         notifySubscribers("users", users.toArray(new String[0]));
     }
@@ -90,7 +84,7 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
 
 
     @Override
-    public void kickUser(String username) throws RemoteException {
+    public void kickUser(String username) {
         users.remove(username);
         addChatMessage(username + " has departed.", "Server");
         notifySubscribers("chat", chatMessages.toArray(new String[0]));
@@ -98,12 +92,12 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     }
 
     @Override
-    public String[] getChatMessages() throws RemoteException {
+    public String[] getChatMessages() {
         return chatMessages.toArray(new String[0]);
     }
 
     @Override
-    public void addChatMessage(String message, String user) throws RemoteException {
+    public void addChatMessage(String message, String user) {
         chatMessages.add("[" + dateFormat.format(new Date()) + "] " + user + ": " + message);
         notifySubscribers("chat", chatMessages.toArray(new String[0]));
     }

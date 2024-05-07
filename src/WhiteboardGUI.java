@@ -217,14 +217,9 @@ public class WhiteboardGUI extends JFrame {
     private void newFile() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new whiteboard?", "New Whiteboard", JOptionPane.YES_NO_OPTION);
         if (response == JOptionPane.YES_OPTION) {
-            try {
-                remoteWhiteboardState.clearShapes();
-                file = null;
-                whiteboardCanvas.repaint();
-            } catch (RemoteException ex) {
-                System.err.println("Failed to clear shapes");
-                Main.handleConnectionFailure(ex);
-            }
+            remoteWhiteboardState.clearShapes();
+            file = null;
+            whiteboardCanvas.repaint();
         }
     }
 
