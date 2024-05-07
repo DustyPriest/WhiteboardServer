@@ -12,10 +12,10 @@ public class ServerGUI extends JFrame {
     private JButton kickButton;
     private JButton acceptUserButton;
     private final RemoteWhiteboard whiteboardState;
-    private final Timer userUpdateTimer;
 
     public ServerGUI(RemoteWhiteboard whiteboardState) {
         super();
+        whiteboardState.setServerGUI(this);
 
         userList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         applicationList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -52,16 +52,6 @@ public class ServerGUI extends JFrame {
             }
         });
 
-        userUpdateTimer = new Timer(1000, e -> {
-            try {
-                userList.setListData(whiteboardState.getCurrentUsers().toArray(new String[0]));
-                applicationList.setListData(whiteboardState.getApplications().toArray(new String[0]));
-            } catch (RemoteException ex) {
-                System.err.println("Failed to get users or applications");
-                ex.printStackTrace();
-            }
-        });
-        userUpdateTimer.start();
 
         this.whiteboardState = whiteboardState;
         this.setContentPane(mainPanel);
@@ -70,5 +60,13 @@ public class ServerGUI extends JFrame {
         this.addWindowListener(closeListener);
         this.setSize(400, 400);
         this.setVisible(true);
+    }
+
+    public void updateUserList(String[] users) {
+        userList.setListData(users);
+    }
+
+    public void updateApplicationList(String[] applications) {
+        applicationList.setListData(applications);
     }
 }

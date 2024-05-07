@@ -14,6 +14,7 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     private ArrayList<String> applications = new ArrayList<>();
     private ArrayList<String> chatMessages = new ArrayList<>();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private ServerGUI serverGUI;
 
     protected RemoteWhiteboard() throws RemoteException {
         super();
@@ -43,6 +44,7 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public void applyForConnection(String username) throws RemoteException {
         applications.add(username);
+        serverGUI.updateApplicationList(applications.toArray(new String[0]));
     }
 
     @Override
@@ -58,16 +60,16 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        serverGUI.updateApplicationList(applications.toArray(new String[0]));
+        serverGUI.updateUserList(users.toArray(new String[0]));
     }
 
-    public ArrayList<String> getApplications() {
-        return applications;
-    }
 
     @Override
     public void kickUser(String username) throws RemoteException {
         users.remove(username);
         addChatMessage(username + " has departed.", "Server");
+        serverGUI.updateUserList(users.toArray(new String[0]));
     }
 
     @Override
@@ -83,5 +85,11 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public boolean validateUsername(String username) throws RemoteException {
         return !users.contains(username);
+    }
+
+    public void setServerGUI(ServerGUI serverGUI) {
+        if (this.serverGUI == null) {
+            this.serverGUI = serverGUI;
+        }
     }
 }
