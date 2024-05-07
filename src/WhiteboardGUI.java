@@ -30,7 +30,6 @@ public class WhiteboardGUI extends JFrame {
         super();
 
         remoteWhiteboardState.setManager(username);
-        remoteWhiteboardState.addUser(username);
 
         whiteboardCanvas = new WhiteboardCanvas(remoteWhiteboardState);
         mainPanel.add(whiteboardCanvas, BorderLayout.CENTER);
@@ -52,15 +51,8 @@ public class WhiteboardGUI extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                try {
-                    remoteWhiteboardState.kickUser(username);
-                } catch (RemoteException ex) {
-                    System.err.println("Failed to remove user from server list");
-                    JOptionPane.showMessageDialog(null, "Connection to whiteboard failed.\nWhiteboard will close...", "Connection Failed", JOptionPane.ERROR_MESSAGE);
-                    ex.printStackTrace();
-                } finally {
-                    chatGUI.dispose();
-                }
+                remoteWhiteboardState.setManager(username);
+                chatGUI.dispose();
             }
         });
         this.setSize(800, 600);

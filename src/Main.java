@@ -54,7 +54,7 @@ public class Main {
         } catch (NumberFormatException e) {
             return false;
         }
-        username = args[1];
+        username = args[1] + " (Manager)";
         return true;
     }
 }

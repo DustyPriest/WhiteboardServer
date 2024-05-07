@@ -106,6 +106,12 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     public void setManager(String username) {
         if (manager == null) {
             manager = username;
+            users.add(username);
+            notifySubscribers("users", users.toArray(new String[0]));
+        } else { // manager leaving whiteboard
+            manager = null;
+            users.remove(username);
+            notifySubscribers("users", users.toArray(new String[0]));
         }
     }
 
