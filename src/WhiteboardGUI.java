@@ -31,6 +31,19 @@ public class WhiteboardGUI extends JFrame {
 
         remoteWhiteboardState.setManager(username);
 
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem newMenuItem = new JMenuItem("New");
+        JMenuItem openMenuItem = new JMenuItem("Open");
+        JMenuItem saveMenuItem = new JMenuItem("Save");
+        JMenuItem saveAsMenuItem = new JMenuItem("Save As");
+        fileMenu.add(newMenuItem);
+        fileMenu.add(openMenuItem);
+        fileMenu.add(saveMenuItem);
+        fileMenu.add(saveAsMenuItem);
+        menuBar.add(fileMenu);
+        this.setJMenuBar(menuBar);
+
         whiteboardCanvas = new WhiteboardCanvas(remoteWhiteboardState);
         mainPanel.add(whiteboardCanvas, BorderLayout.CENTER);
         for (String name : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()) {

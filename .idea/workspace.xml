@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="180680d2-7750-4928-a4b0-583ad2013e71" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RemoteWhiteboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/WhiteboardGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/WhiteboardGUI.java" afterDir="false" />
-    </list>
+    <list default="true" id="180680d2-7750-4928-a4b0-583ad2013e71" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,7 +77,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714628289058</updated>
-      <workItem from="1714628290057" duration="34365000" />
+      <workItem from="1714628290057" duration="34694000" />
     </task>
     <servers />
   </component>
