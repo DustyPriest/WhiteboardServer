@@ -225,7 +225,6 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
 
     }
 
-
     @Override
     public void update(String event, String[] data) {
         if (event.equals("shape")) {

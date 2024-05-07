@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="180680d2-7750-4928-a4b0-583ad2013e71" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IRemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IRemoteWhiteboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RemoteWhiteboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RemoteWhiteboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/WhiteboardCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/WhiteboardCanvas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +43,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.lookFeel",
@@ -83,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1714628289058</updated>
-      <workItem from="1714628290057" duration="41899000" />
+      <workItem from="1714628290057" duration="42906000" />
     </task>
     <servers />
   </component>
