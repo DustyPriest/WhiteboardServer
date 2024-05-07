@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -25,6 +26,11 @@ public class RemoteWhiteboard extends UnicastRemoteObject implements IRemoteWhit
     @Override
     public ICustomShape[] getShapes() throws RemoteException {
         return shapes.toArray(new ICustomShape[0]);
+    }
+
+    @Override
+    public void setShapes(ConcurrentLinkedQueue<ICustomShape> shapes) throws RemoteException {
+        this.shapes = shapes;
     }
 
     @Override

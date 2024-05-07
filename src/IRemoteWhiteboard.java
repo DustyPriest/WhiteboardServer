@@ -2,10 +2,12 @@ import shapes.ICustomShape;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public interface IRemoteWhiteboard extends Remote {
 
     ICustomShape[] getShapes() throws RemoteException;
+    void setShapes(ConcurrentLinkedQueue<ICustomShape> shapes) throws RemoteException;
     void addShape(ICustomShape shape) throws RemoteException;
     void clearShapes() throws RemoteException;
 

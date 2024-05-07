@@ -1,8 +1,14 @@
+import shapes.ICustomShape;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class WhiteboardGUI extends JFrame {
@@ -25,24 +31,14 @@ public class WhiteboardGUI extends JFrame {
     private final WhiteboardCanvas whiteboardCanvas;
     private JButton selectedDrawingButton = brushButton;
     private final ChatGUI chatGUI;
+    private final RemoteWhiteboard remoteWhiteboardState;
+    private boolean saved = false;
+    private File file;
 
     public WhiteboardGUI(RemoteWhiteboard remoteWhiteboardState, String username) {
         super();
-
+        this.remoteWhiteboardState = remoteWhiteboardState;
         remoteWhiteboardState.setManager(username);
-
-        JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
-        JMenuItem newMenuItem = new JMenuItem("New");
-        JMenuItem openMenuItem = new JMenuItem("Open");
-        JMenuItem saveMenuItem = new JMenuItem("Save");
-        JMenuItem saveAsMenuItem = new JMenuItem("Save As");
-        fileMenu.add(newMenuItem);
-        fileMenu.add(openMenuItem);
-        fileMenu.add(saveMenuItem);
-        fileMenu.add(saveAsMenuItem);
-        menuBar.add(fileMenu);
-        this.setJMenuBar(menuBar);
 
         whiteboardCanvas = new WhiteboardCanvas(remoteWhiteboardState);
         mainPanel.add(whiteboardCanvas, BorderLayout.CENTER);
@@ -56,6 +52,7 @@ public class WhiteboardGUI extends JFrame {
         addChatButton();
         setDrawingOptionsListeners();
         setStyleOptionsListeners();
+        setupMenuBar();
 
         setDrawingMode(DrawingMode.BRUSH, brushButton);
         this.setTitle("Whiteboard");
@@ -129,6 +126,106 @@ public class WhiteboardGUI extends JFrame {
         drawingOptionsToolbar.add(Box.createGlue());
         drawingOptionsToolbar.add(chatButton);
         drawingOptionsToolbar.addSeparator();
+    }
+
+    private void setupMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem newMenuItem = new JMenuItem("New");
+        JMenuItem openMenuItem = new JMenuItem("Open");
+        JMenuItem saveMenuItem = new JMenuItem("Save");
+        JMenuItem saveAsMenuItem = new JMenuItem("Save As");
+
+        newMenuItem.addActionListener(e -> newFile());
+        openMenuItem.addActionListener(e -> open());
+        saveMenuItem.addActionListener(e -> save());
+        saveAsMenuItem.addActionListener(e -> saveAs());
+
+        fileMenu.add(newMenuItem);
+        fileMenu.add(openMenuItem);
+        fileMenu.add(saveMenuItem);
+        fileMenu.add(saveAsMenuItem);
+        menuBar.add(fileMenu);
+        this.setJMenuBar(menuBar);
+    }
+
+    private File selectFile(String type, String title) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle(title);
+        int response;
+        if (type.equals("Open")) {
+            response = fileChooser.showOpenDialog(null);
+        } else {
+            response = fileChooser.showSaveDialog(null);
+        }
+        if (response == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        }
+        return null;
+    }
+
+    private void saveAs() {
+        File file = selectFile("Save", "Save Whiteboard As");
+        if (file != null) {
+            try {
+                WhiteboardIOUtils.saveShapes(remoteWhiteboardState.getShapes(), file);
+                this.file = file;
+            } catch (RemoteException e) {
+                System.err.println("Failed to retrieve shapes for saving");
+                Main.handleConnectionFailure(e);
+            } catch (IOException e) {
+                System.err.println("Failed to save file");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void save() {
+        if (this.file == null) {
+            saveAs();
+        } else {
+            try {
+                WhiteboardIOUtils.saveShapes(remoteWhiteboardState.getShapes(), this.file);
+            } catch (RemoteException ex) {
+                System.err.println("Failed to retrieve shapes for saving");
+                Main.handleConnectionFailure(ex);
+            } catch (IOException e) {
+                System.err.println("Failed to save file");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void open() {
+        File file = selectFile("Open","Open Whiteboard");
+        if (file != null) {
+            try {
+                ConcurrentLinkedQueue<ICustomShape> shapes = WhiteboardIOUtils.loadShapes(file);
+                remoteWhiteboardState.setShapes(shapes);
+                this.file = file;
+                whiteboardCanvas.repaint();
+            } catch (RemoteException ex) {
+                System.err.println("Failed to load shapes to server");
+                Main.handleConnectionFailure(ex);
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Failed to load file");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void newFile() {
+        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new whiteboard?", "New Whiteboard", JOptionPane.YES_NO_OPTION);
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                remoteWhiteboardState.clearShapes();
+                file = null;
+                whiteboardCanvas.repaint();
+            } catch (RemoteException ex) {
+                System.err.println("Failed to clear shapes");
+                Main.handleConnectionFailure(ex);
+            }
+        }
     }
 
 }
