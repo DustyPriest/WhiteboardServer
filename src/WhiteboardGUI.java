@@ -32,7 +32,7 @@ public class WhiteboardGUI extends JFrame {
     private final WhiteboardCanvas whiteboardCanvas;
     private JButton selectedDrawingButton = brushButton;
     private final ChatGUI chatGUI;
-    private final RemoteWhiteboard remoteWhiteboardState;
+    private final IRemoteWhiteboard remoteWhiteboardState;
     private boolean saved = false;
     private File file;
 
@@ -139,8 +139,22 @@ public class WhiteboardGUI extends JFrame {
 
         newMenuItem.addActionListener(e -> newFile());
         openMenuItem.addActionListener(e -> open());
-        saveMenuItem.addActionListener(e -> save());
-        saveAsMenuItem.addActionListener(e -> saveAs());
+        saveMenuItem.addActionListener(e -> {
+            try {
+                WhiteboardIOUtils.save(remoteWhiteboardState.getShapes(), file);
+            } catch (RemoteException ex) {
+                System.err.println("Failed to retrieve shapes to save");
+                Main.handleConnectionFailure(ex);
+            }
+        });
+        saveAsMenuItem.addActionListener(e -> {
+            try {
+                this.file = WhiteboardIOUtils.saveAs(remoteWhiteboardState.getShapes());
+            } catch (RemoteException ex) {
+                System.err.println("Failed to retrieve shapes to save");
+                Main.handleConnectionFailure(ex);
+            }
+        });
 
         fileMenu.add(newMenuItem);
         fileMenu.add(openMenuItem);
@@ -150,82 +164,20 @@ public class WhiteboardGUI extends JFrame {
         this.setJMenuBar(menuBar);
     }
 
-    private File selectFile(String type, String title) {
-        String suffix = ".ser";
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Whiteboard Files", "ser"));
-        fileChooser.setDialogTitle(title);
-        int response;
-        if (type.equals("Open")) {
-            response = fileChooser.showOpenDialog(null);
-        } else {
-            response = fileChooser.showSaveDialog(null);
-        }
-        if (response == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            if (!file.getName().endsWith(suffix)) {
-                file = new File(file.getAbsolutePath() + suffix);
-            }
-            return file;
-        }
-        return null;
-    }
-
-    private void saveAs() {
-        File file = selectFile("Save", "Save Whiteboard As");
-        if (file != null) {
-            try {
-                WhiteboardIOUtils.saveShapes(remoteWhiteboardState.getShapes(), file);
-                this.file = file;
-            } catch (RemoteException e) {
-                System.err.println("Failed to retrieve shapes for saving");
-                Main.handleConnectionFailure(e);
-            } catch (IOException e) {
-                System.err.println("Failed to save file");
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void save() {
-        if (this.file == null) {
-            saveAs();
-        } else {
-            try {
-                WhiteboardIOUtils.saveShapes(remoteWhiteboardState.getShapes(), this.file);
-            } catch (RemoteException ex) {
-                System.err.println("Failed to retrieve shapes for saving");
-                Main.handleConnectionFailure(ex);
-            } catch (IOException e) {
-                System.err.println("Failed to save file");
-                e.printStackTrace();
-            }
-        }
-    }
-
     private void open() {
-        File file = selectFile("Open","Open Whiteboard");
+        File file = WhiteboardIOUtils.selectFile("Open","Open Whiteboard");
         if (file != null) {
-            try {
-                ConcurrentLinkedQueue<ICustomShape> shapes = WhiteboardIOUtils.loadShapes(file);
-                remoteWhiteboardState.setShapes(shapes);
-                this.file = file;
-                whiteboardCanvas.repaint();
-            } catch (RemoteException ex) {
-                System.err.println("Failed to load shapes to server");
-                Main.handleConnectionFailure(ex);
-            } catch (IOException | ClassNotFoundException e) {
-                System.err.println("Failed to load file");
-                e.printStackTrace();
-            }
+            ConcurrentLinkedQueue<ICustomShape> shapes = WhiteboardIOUtils.loadShapes(file);
+            ((RemoteWhiteboard) remoteWhiteboardState).setShapes(shapes);
+            this.file = file;
+            whiteboardCanvas.repaint();
         }
     }
 
     private void newFile() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new whiteboard?", "New Whiteboard", JOptionPane.YES_NO_OPTION);
         if (response == JOptionPane.YES_OPTION) {
-            remoteWhiteboardState.clearShapes();
+            ((RemoteWhiteboard) remoteWhiteboardState).clearShapes();
             file = null;
             whiteboardCanvas.repaint();
         }
