@@ -1,6 +1,7 @@
 import shapes.ICustomShape;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -150,7 +151,10 @@ public class WhiteboardGUI extends JFrame {
     }
 
     private File selectFile(String type, String title) {
+        String suffix = ".ser";
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Whiteboard Files", "ser"));
         fileChooser.setDialogTitle(title);
         int response;
         if (type.equals("Open")) {
@@ -159,7 +163,11 @@ public class WhiteboardGUI extends JFrame {
             response = fileChooser.showSaveDialog(null);
         }
         if (response == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile();
+            File file = fileChooser.getSelectedFile();
+            if (!file.getName().endsWith(suffix)) {
+                file = new File(file.getAbsolutePath() + suffix);
+            }
+            return file;
         }
         return null;
     }
