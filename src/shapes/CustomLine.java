@@ -8,12 +8,8 @@ public class CustomLine extends Line2D.Double implements ICustomShape {
     private Color color = Color.BLACK;
     private int strokeWidth = 1;
 
-    public CustomLine(double x1, double y1, double x2, double y2) {
+    public CustomLine(int x1, int y1, int x2, int y2, Color color, int strokeWidth) {
         super(x1, y1, x2, y2);
-    }
-
-    public CustomLine(double x1, double y1, double x2, double y2, Color color, int strokeWidth) {
-        this(x1, y1, x2, y2);
         this.color = color;
         this.strokeWidth = strokeWidth;
     }

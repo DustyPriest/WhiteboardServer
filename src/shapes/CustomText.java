@@ -58,10 +58,6 @@ public class CustomText implements ICustomShape {
         return text.isEmpty();
     }
 
-    public void setFont(Font font) {
-        this.font = font;
-    }
-
     @Override
     public Color getColor() {
         return color;
