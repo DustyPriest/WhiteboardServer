@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.rmi.RemoteException;
 
 enum DrawingMode {
     BRUSH,
@@ -29,24 +28,24 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
     private int drawingStroke = 1;
     private ICustomShape[] shapes;
     private ICustomShape previewShape;
-    private final RemoteWhiteboard remoteWhiteboardState;
+    private final RemoteWhiteboard remoteWhiteboard;
 
-    public WhiteboardCanvas(RemoteWhiteboard remoteWhiteboardState) {
+    public WhiteboardCanvas(RemoteWhiteboard remoteWhiteboard) {
         super();
-        this.remoteWhiteboardState = remoteWhiteboardState;
+        this.remoteWhiteboard = remoteWhiteboard;
         this.setBackground(Color.WHITE);
         this.setFocusable(true);
         addMouseListener(this);
         addMouseMotionListener(this);
         addKeyListener(this);
-        remoteWhiteboardState.subscribe(this);
+        remoteWhiteboard.subscribe(this);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        shapes = remoteWhiteboardState.getShapes();
+        shapes = remoteWhiteboard.getShapes();
         for (ICustomShape shape : shapes) {
             shape.draw(g2);
         }
@@ -80,11 +79,11 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
         requestFocusInWindow();
         switch (drawingMode) {
             case ERASE:
-                remoteWhiteboardState.addShape(new CustomBrush(e.getX(), e.getY(), canvasColor, drawingStroke));
+                remoteWhiteboard.addShape(new CustomBrush(e.getX(), e.getY(), canvasColor, drawingStroke));
                 repaint();
                 break;
             case BRUSH:
-                remoteWhiteboardState.addShape(new CustomBrush(e.getX(), e.getY(), drawingColor, drawingStroke));
+                remoteWhiteboard.addShape(new CustomBrush(e.getX(), e.getY(), drawingColor, drawingStroke));
                 repaint();
                 break;
             case TEXT:
@@ -150,7 +149,7 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
     @Override
     public void mouseReleased(MouseEvent e) {
         if (previewShape != null && !enteringText) {
-            remoteWhiteboardState.addShape(previewShape);
+            remoteWhiteboard.addShape(previewShape);
             previewShape = null;
             this.repaint();
         }
@@ -179,7 +178,7 @@ public class WhiteboardCanvas extends JPanel implements MouseInputListener, KeyL
         enteringText = false;
         if (!customText.isEmpty()) {
             customText.toggleCaret();
-            remoteWhiteboardState.addShape(customText);
+            remoteWhiteboard.addShape(customText);
         }
         previewShape = null;
     }

@@ -1,13 +1,10 @@
 import shapes.ICustomShape;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -32,16 +29,16 @@ public class WhiteboardGUI extends JFrame {
     private final WhiteboardCanvas whiteboardCanvas;
     private JButton selectedDrawingButton = brushButton;
     private final ChatGUI chatGUI;
-    private final IRemoteWhiteboard remoteWhiteboardState;
+    private final IRemoteWhiteboard remoteWhiteboard;
     private boolean saved = false;
     private File file;
 
-    public WhiteboardGUI(RemoteWhiteboard remoteWhiteboardState, String username) {
+    public WhiteboardGUI(RemoteWhiteboard remoteWhiteboard, String username) {
         super();
-        this.remoteWhiteboardState = remoteWhiteboardState;
-        remoteWhiteboardState.setManager(username);
+        this.remoteWhiteboard = remoteWhiteboard;
+        remoteWhiteboard.setManager(username);
 
-        whiteboardCanvas = new WhiteboardCanvas(remoteWhiteboardState);
+        whiteboardCanvas = new WhiteboardCanvas(remoteWhiteboard);
         mainPanel.add(whiteboardCanvas, BorderLayout.CENTER);
         for (String name : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()) {
             fontComboBox.addItem(name);
@@ -62,7 +59,7 @@ public class WhiteboardGUI extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                remoteWhiteboardState.setManager(username);
+                remoteWhiteboard.setManager(username);
                 chatGUI.dispose();
             }
         });
@@ -71,7 +68,7 @@ public class WhiteboardGUI extends JFrame {
         this.setBounds((int) screenSize.getWidth() / 2 - 400, (int) screenSize.getHeight() / 2 - 300, 800, 600);
         this.setVisible(true);
 
-        chatGUI = new ChatGUI(remoteWhiteboardState, username);
+        chatGUI = new ChatGUI(remoteWhiteboard, username);
         this.requestFocus();
     }
 
@@ -141,7 +138,7 @@ public class WhiteboardGUI extends JFrame {
         openMenuItem.addActionListener(e -> open());
         saveMenuItem.addActionListener(e -> {
             try {
-                WhiteboardIOUtils.save(remoteWhiteboardState.getShapes(), file);
+                WhiteboardIOUtils.save(remoteWhiteboard.getShapes(), file);
             } catch (RemoteException ex) {
                 System.err.println("Failed to retrieve shapes to save");
                 Main.handleConnectionFailure(ex);
@@ -149,7 +146,7 @@ public class WhiteboardGUI extends JFrame {
         });
         saveAsMenuItem.addActionListener(e -> {
             try {
-                this.file = WhiteboardIOUtils.saveAs(remoteWhiteboardState.getShapes());
+                this.file = WhiteboardIOUtils.saveAs(remoteWhiteboard.getShapes());
             } catch (RemoteException ex) {
                 System.err.println("Failed to retrieve shapes to save");
                 Main.handleConnectionFailure(ex);
@@ -168,7 +165,7 @@ public class WhiteboardGUI extends JFrame {
         File file = WhiteboardIOUtils.selectFile("Open","Open Whiteboard");
         if (file != null) {
             ConcurrentLinkedQueue<ICustomShape> shapes = WhiteboardIOUtils.loadShapes(file);
-            ((RemoteWhiteboard) remoteWhiteboardState).setShapes(shapes);
+            ((RemoteWhiteboard) remoteWhiteboard).setShapes(shapes);
             this.file = file;
             whiteboardCanvas.repaint();
         }
@@ -177,7 +174,7 @@ public class WhiteboardGUI extends JFrame {
     private void newFile() {
         int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new whiteboard?", "New Whiteboard", JOptionPane.YES_NO_OPTION);
         if (response == JOptionPane.YES_OPTION) {
-            ((RemoteWhiteboard) remoteWhiteboardState).clearShapes();
+            ((RemoteWhiteboard) remoteWhiteboard).clearShapes();
             file = null;
             whiteboardCanvas.repaint();
         }

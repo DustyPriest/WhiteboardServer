@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="180680d2-7750-4928-a4b0-583ad2013e71" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChatGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChatGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ServerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/WhiteboardCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/WhiteboardCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/WhiteboardGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/WhiteboardGUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +60,9 @@
       <recent name="C:\Users\HugoPC\IdeaProjects\WhiteboardServer\src" />
       <recent name="C:\Users\HugoPC\IdeaProjects\WhiteboardServer\src\shapes" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\HugoPC\IdeaProjects\WhiteboardServer" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="shapes" />
     </key>
@@ -81,6 +87,7 @@
       <updated>1714628289058</updated>
       <workItem from="1714628290057" duration="42906000" />
       <workItem from="1715234587507" duration="3657000" />
+      <workItem from="1715300320713" duration="3263000" />
     </task>
     <servers />
   </component>

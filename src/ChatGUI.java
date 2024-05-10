@@ -12,14 +12,14 @@ public class ChatGUI extends JFrame implements KeyListener, Subscriber {
     private JScrollPane activeUsersScrollPane;
     private JTextArea chatArea;
     private JTextArea usersArea;
-    private final IRemoteWhiteboard remoteWhiteboardState;
+    private final IRemoteWhiteboard remoteWhiteboard;
     private final String username;
 
-    public ChatGUI(RemoteWhiteboard remoteWhiteboardState, String username) {
+    public ChatGUI(RemoteWhiteboard remoteWhiteboard, String username) {
         super();
-        this.remoteWhiteboardState = remoteWhiteboardState;
+        this.remoteWhiteboard = remoteWhiteboard;
         this.username = username;
-        remoteWhiteboardState.subscribe(this);
+        remoteWhiteboard.subscribe(this);
 
         this.setContentPane(mainPanel);
         this.setTitle("Chat & Users");
@@ -38,7 +38,7 @@ public class ChatGUI extends JFrame implements KeyListener, Subscriber {
         String message = messageField.getText();
         if (!message.isEmpty()) {
             try {
-                remoteWhiteboardState.addChatMessage(message, username);
+                remoteWhiteboard.addChatMessage(message, username);
                 messageField.setText("");
             } catch (RemoteException ex) {
                 System.err.println("Failed to send chat message");

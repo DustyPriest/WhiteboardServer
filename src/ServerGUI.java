@@ -13,12 +13,11 @@ public class ServerGUI extends JFrame implements Subscriber {
     private JButton acceptUserButton;
     private JButton denyUserButton;
     private JButton openWhiteboardButton;
-    private final RemoteWhiteboard whiteboardState;
     private WhiteboardGUI managerGUI;
 
-    public ServerGUI(RemoteWhiteboard whiteboardState, String managerName) {
+    public ServerGUI(RemoteWhiteboard remoteWhiteboard, String managerName) {
         super();
-        whiteboardState.subscribe(this);
+        remoteWhiteboard.subscribe(this);
 
         userList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         applicationList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -39,25 +38,25 @@ public class ServerGUI extends JFrame implements Subscriber {
         acceptUserButton.addActionListener(e -> {
             String selectedUser = applicationList.getSelectedValue();
             if (selectedUser != null) {
-                whiteboardState.addUser(selectedUser);
+                remoteWhiteboard.addUser(selectedUser);
             }
         });
 
         denyUserButton.addActionListener(e -> {
             String selectedUser = applicationList.getSelectedValue();
             if (selectedUser != null) {
-                whiteboardState.denyUser(selectedUser);
+                remoteWhiteboard.denyUser(selectedUser);
             }
         });
 
         kickButton.addActionListener(e -> {
             String selectedUser = userList.getSelectedValue();
             if (selectedUser != null) {
-                if (selectedUser.equals(whiteboardState.getManager())) {
+                if (selectedUser.equals(remoteWhiteboard.getManager())) {
                     JOptionPane.showMessageDialog(null, "Cannot kick manager", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                whiteboardState.kickUser(selectedUser);
+                remoteWhiteboard.kickUser(selectedUser);
             }
         });
 
@@ -66,11 +65,10 @@ public class ServerGUI extends JFrame implements Subscriber {
                 managerGUI.setVisible(true);
                 managerGUI.requestFocus();
             } else {
-                managerGUI = new WhiteboardGUI(whiteboardState, managerName);
+                managerGUI = new WhiteboardGUI(remoteWhiteboard, managerName);
             }
         });
 
-        this.whiteboardState = whiteboardState;
         this.setContentPane(mainPanel);
         this.setTitle("Whiteboard Server");
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -80,7 +78,7 @@ public class ServerGUI extends JFrame implements Subscriber {
         this.setBounds((int) screenSize.getWidth() / 2 - 805, (int) screenSize.getHeight() / 2 - 200, 400, 400);
         this.setVisible(true);
 
-        managerGUI = new WhiteboardGUI(whiteboardState, managerName);
+        managerGUI = new WhiteboardGUI(remoteWhiteboard, managerName);
     }
 
     private void updateUserList(String[] users) {
