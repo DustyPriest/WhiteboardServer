@@ -1,3 +1,6 @@
 # Server for distributed whiteboard
-## Use in tandem with WhiteboardClient
 ## How to Use:
+Use in tandem with WhiteboardClient (launch server first)
+
+`java -jar WhiteboardServer.jar <port> <username>`
+
