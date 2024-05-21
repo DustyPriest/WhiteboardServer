@@ -138,7 +138,7 @@ public class WhiteboardGUI extends JFrame {
         openMenuItem.addActionListener(e -> open());
         saveMenuItem.addActionListener(e -> {
             try {
-                WhiteboardIOUtils.save(remoteWhiteboard.getShapes(), file);
+                this.file = WhiteboardIOUtils.save(remoteWhiteboard.getShapes(), file);
             } catch (RemoteException ex) {
                 System.err.println("Failed to retrieve shapes to save");
                 Main.handleConnectionFailure(ex);

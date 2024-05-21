@@ -70,9 +70,9 @@ public class WhiteboardIOUtils {
         return file;
     }
 
-    public static void save(ICustomShape[] shapes, File file) {
+    public static File save(ICustomShape[] shapes, File file) {
         if (file == null) {
-            WhiteboardIOUtils.saveAs(shapes);
+            return WhiteboardIOUtils.saveAs(shapes);
         } else {
             try {
                 WhiteboardIOUtils.saveShapes(shapes, file);
@@ -82,6 +82,7 @@ public class WhiteboardIOUtils {
                 e.printStackTrace();
             }
         }
+        return file;
     }
 
 
